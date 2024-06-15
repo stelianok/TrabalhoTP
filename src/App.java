@@ -2,12 +2,13 @@ import java.sql.SQLException;
 import javax.swing.*;
 
 public class App {
-    InsertWindow iw = new InsertWindow();
+    InsertWindow iw;
     DBManager dbManager = new DBManager();
 
     void connectToDatabase() {
         try {
             dbManager.startDatabase();
+
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "O driver do banco de dados não foi encontrado.\n" + ex, "Erro",
                     JOptionPane.ERROR_MESSAGE);
@@ -30,9 +31,11 @@ public class App {
     public App() {
         connectToDatabase();
         iw = new InsertWindow();
+
     }
 
     public static void main(String[] args) throws Exception {
         new App();
+
     }
 }
