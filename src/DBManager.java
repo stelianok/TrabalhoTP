@@ -23,6 +23,7 @@ public class DBManager {
     statement = connection.createStatement();
 
     CreateTables(connection, statement);
+
   }
 
   public void closeDatabase() {
@@ -62,6 +63,7 @@ public class DBManager {
           "phone VARCHAR(50), " +
           "email VARCHAR(255))";
       stmt.executeUpdate(createTableSuppliers);
+      addDefaultSuppliers(connection, statement);
     }
 
     if (!doesTableExist(connection, "Categories")) {
@@ -85,7 +87,38 @@ public class DBManager {
           "FOREIGN KEY (category_id) REFERENCES Categories(id), " +
           "FOREIGN KEY (supplier_id) REFERENCES Suppliers(id))";
       stmt.executeUpdate(createTableProducts);
+
+      addDefaultCategories(connection, statement);
+
     }
+
+  }
+
+  private void addDefaultSuppliers(Connection connection, Statement stmt) throws SQLException {
+    String nikeQuery = "INSERT INTO Suppliers (name, address, phone, email) VALUES " +
+        "('NIKE', 'real nike address', '1199999999', 'nike@official.com') ";
+
+    String santaCruzQuery = "INSERT INTO Suppliers (name, address, phone, email) VALUES " +
+        "('SANTA CRUZ', 'REAL SANTA ADDRESS', '1299999999','santacruz@official.com') ";
+
+    String hockeyQuery = "INSERT INTO Suppliers (name, address, phone, email) VALUES " +
+        "('HOCKEY', 'real HOCKEY address', '1399999999', 'hockey@official.com') ";
+
+    String ousQuery = "INSERT INTO Suppliers (name, address, phone, email) VALUES " +
+        "('OUS', 'real OUS address', '14199999999', 'ous@official.com') ";
+
+    String spitfireQuery = "INSERT INTO Suppliers (name, address, phone, email) VALUES " +
+        "('SPITFIRE', 'real SPITFIRE address', '1599999999', 'spitfire@official.com')";
+
+    stmt.executeUpdate(nikeQuery);
+    stmt.executeUpdate(santaCruzQuery);
+    stmt.executeUpdate(hockeyQuery);
+    stmt.executeUpdate(ousQuery);
+    stmt.executeUpdate(spitfireQuery);
+
+  }
+
+  private void addDefaultCategories(Connection connection, Statement stmt) throws SQLException {
 
   }
 
@@ -96,4 +129,5 @@ public class DBManager {
   public void setStatement(Statement statement) {
     this.statement = statement;
   }
+
 }
