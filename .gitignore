@@ -1,8 +1,8 @@
 # Unnecessary database setup files
-bd_teste.backup
-bd_teste.data
-bd_teste.properties
-bd_teste.script
+*.backup
+*.data
+*.properties
+*.script
 
 # Examples that I'll remove later anyways
 LayoutExample.java
