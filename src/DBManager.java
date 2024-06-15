@@ -130,7 +130,7 @@ public class DBManager {
 
     for (int i = 0; i < categories.length; i++) {
       String query = "INSERT INTO Categories (id, name, description) VALUES " +
-          "(" + (i + 1) + ", '" + categories[i] + "', 'Descrição da categoria " + (i + 1) + "')";
+          "(" + (i) + ", '" + categories[i] + "', 'Descrição da categoria " + (i + 1) + "')";
 
       stmt.executeUpdate(query);
     }
