@@ -136,12 +136,8 @@ public class DBManager {
     }
   }
 
-  public Statement getStatement() {
-    return statement;
-  }
-
-  public void setStatement(Statement statement) {
-    this.statement = statement;
+  public Connection getConnection() {
+    return connection;
   }
 
 }
