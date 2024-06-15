@@ -1,21 +1,13 @@
-import java.sql.*;
+import java.sql.SQLException;
 import javax.swing.*;
 
 public class App {
-    Connection connection;
-    Statement statement;
-    InsertWindow iw;
+    InsertWindow iw = new InsertWindow();
+    DBManager dbManager = new DBManager();
 
-    void startDatabase() {
+    void connectToDatabase() {
         try {
-            Class.forName("org.hsql.jdbcDriver");
-            String connectionString = "jdbc:HypersonicSQL:bd_teste";
-            String username = "sa";
-            String password = "";
-            connection = DriverManager.getConnection(connectionString, username, password);
-
-            statement = connection.createStatement();
-
+            dbManager.startDatabase();
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "O driver do banco de dados não foi encontrado.\n" + ex, "Erro",
                     JOptionPane.ERROR_MESSAGE);
@@ -29,15 +21,14 @@ public class App {
 
     public void closeDatabase() {
         try {
-            statement.close();
-            connection.close();
+            dbManager.closeDatabase();
         } catch (Exception ex) {
             System.out.println("Falha ao encerrar conexão!");
         }
     }
 
     public App() {
-        startDatabase();
+        connectToDatabase();
         iw = new InsertWindow();
     }
 
