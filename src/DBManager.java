@@ -72,6 +72,9 @@ public class DBManager {
           "name VARCHAR(255), " +
           "description VARCHAR(255))";
       stmt.executeUpdate(createTableCategories);
+
+      addDefaultCategories(connection, statement);
+
     }
 
     if (!doesTableExist(connection, "Products")) {
@@ -87,8 +90,6 @@ public class DBManager {
           "FOREIGN KEY (category_id) REFERENCES Categories(id), " +
           "FOREIGN KEY (supplier_id) REFERENCES Suppliers(id))";
       stmt.executeUpdate(createTableProducts);
-
-      addDefaultCategories(connection, statement);
 
     }
 
@@ -119,7 +120,20 @@ public class DBManager {
   }
 
   private void addDefaultCategories(Connection connection, Statement stmt) throws SQLException {
+    String[] categories = {
+        "Skates montados",
+        "Acessórios",
+        "Equipamentos de proteção",
+        "Vestuário",
+        "Peças de reposição"
+    };
 
+    for (int i = 0; i < categories.length; i++) {
+      String query = "INSERT INTO Categories (id, name, description) VALUES " +
+          "(" + (i + 1) + ", '" + categories[i] + "', 'Descrição da categoria " + (i + 1) + "')";
+
+      stmt.executeUpdate(query);
+    }
   }
 
   public Statement getStatement() {
