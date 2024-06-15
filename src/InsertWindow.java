@@ -6,7 +6,7 @@ import java.util.List;
  * Todo
  * - [X] Criar UI
  * - [X] Dados de categoriesComboBox precisam ser carregados do bd
- * - [] Dados de suppliersComboBox precisam ser carregados do bd
+ * - [X] Dados de suppliersComboBox precisam ser carregados do bd
  * - [] Implementar funcionalidade de inserção no banco de dados com tratamento
  * de errors
  * - [] Exibir mensagem de sucesso ou erro após a inserção.
@@ -31,15 +31,12 @@ class InsertWindow extends JFrame {
   private JLabel addedAtLabel = new JLabel("Adicionado em: ");
   private JTextField addedAtTextField = new JTextField(20);
 
-  private String[] suppliers = { "1 - NIKE", "2 - SANTA CRUZ", "3 - HOCKEY", "4 - OUS", "5 - SPITFIRE",
-  };
-
   private JLabel supplierLabel = new JLabel("Fornecedor: ");
-  private JComboBox<String> supplierComboBox = new JComboBox<>(suppliers);
 
   private JButton insertButton = new JButton("Inserir registro");
 
   private CategoriesRepository categoriesRepository = new CategoriesRepository(new DBManager().getConnection());
+  private SuppliersRepository suppliersRepository = new SuppliersRepository(new DBManager().getConnection());
 
   public InsertWindow() {
 
@@ -76,6 +73,11 @@ class InsertWindow extends JFrame {
     mainPanel.add(addedAtTextField);
 
     mainPanel.add(supplierLabel);
+
+    List<SupplierObject> supplierObjects = suppliersRepository.getAllSuppliers();
+
+    JComboBox<String> supplierComboBox = new JComboBox<>(getFormattedSuppliers(supplierObjects));
+
     mainPanel.add(supplierComboBox);
 
     add(mainPanel, BorderLayout.CENTER);
@@ -100,5 +102,20 @@ class InsertWindow extends JFrame {
     }
 
     return categoriesStr;
+  }
+
+  private String[] getFormattedSuppliers(List<SupplierObject> supplierObjects) {
+    String[] suppliersStr = new String[supplierObjects.size()];
+
+    for (int i = 0; i < supplierObjects.size(); i++) {
+      SupplierObject category = supplierObjects.get(i);
+      int id = category.id;
+      String name = category.name;
+      String categoryStr = id + " - " + name;
+
+      suppliersStr[i] = categoryStr;
+    }
+
+    return suppliersStr;
   }
 }
