@@ -1,10 +1,11 @@
 import java.awt.*;
 import javax.swing.*;
+import java.util.List;
 
 /**
  * Todo
  * - [X] Criar UI
- * - [] Dados de categoriesComboBox precisam ser carregados do bd
+ * - [X] Dados de categoriesComboBox precisam ser carregados do bd
  * - [] Dados de suppliersComboBox precisam ser carregados do bd
  * - [] Implementar funcionalidade de inserção no banco de dados com tratamento
  * de errors
@@ -19,11 +20,7 @@ class InsertWindow extends JFrame {
   private JLabel descriptionLabel = new JLabel("Descrição:");
   private JTextArea descriptionTextArea = new JTextArea(5, 20);
 
-  private String[] categories = { "1 - Skates montados", "2 - acessórios", "3 - equipamentos de proteção",
-      "4 - Vestuário", "5 - Peças de reposição" };
-
   private JLabel categoryLabel = new JLabel("Categoria: ");
-  private JComboBox<String> categoriesComboBox = new JComboBox<>(categories);
 
   private JLabel priceLabel = new JLabel("Preço: ");
   private JTextField priceTextField = new JTextField(80);
@@ -42,7 +39,10 @@ class InsertWindow extends JFrame {
 
   private JButton insertButton = new JButton("Inserir registro");
 
+  private CategoriesRepository categoriesRepository = new CategoriesRepository(new DBManager().getConnection());
+
   public InsertWindow() {
+
     setTitle("Inserir Registros");
     setSize(800, 800);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,6 +59,11 @@ class InsertWindow extends JFrame {
     mainPanel.add(new JScrollPane(descriptionTextArea)); // Adicionando JTextArea em um JScrollPane
 
     mainPanel.add(categoryLabel);
+
+    List<CategoryObject> categoriesObjects = categoriesRepository.getAllCategories();
+
+    JComboBox<String> categoriesComboBox = new JComboBox<>(getFormattedCategories(categoriesObjects));
+
     mainPanel.add(categoriesComboBox);
 
     mainPanel.add(priceLabel);
@@ -80,5 +85,20 @@ class InsertWindow extends JFrame {
 
     add(buttonPanel, BorderLayout.SOUTH);
     setVisible(true);
+  }
+
+  private String[] getFormattedCategories(List<CategoryObject> categoriesObjects) {
+    String[] categoriesStr = new String[categoriesObjects.size()];
+
+    for (int i = 0; i < categoriesObjects.size(); i++) {
+      CategoryObject category = categoriesObjects.get(i);
+      int id = category.id;
+      String name = category.name;
+      String categoryStr = id + " - " + name;
+
+      categoriesStr[i] = categoryStr;
+    }
+
+    return categoriesStr;
   }
 }
