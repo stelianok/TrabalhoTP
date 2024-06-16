@@ -1,30 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
-class ProductWithSupplierAndCategoryInfo {
-  int id;
-  String name;
-  String description;
-  String categoryName;
-  double price;
-  int quantity;
-  String addedAt;
-  String supplierName;
-
-  public ProductWithSupplierAndCategoryInfo(int id, String name, String description, String categoryName, double price,
-      int quantity,
-      String addedAt, String supplierName) {
-    this.id = id;
-    this.name = name;
-    this.description = description;
-    this.categoryName = categoryName;
-    this.price = price;
-    this.quantity = quantity;
-    this.addedAt = addedAt;
-    this.supplierName = supplierName;
-  }
-}
+import java.util.List;
 
 public class ListAllProductsWindow extends JPanel {
   /*
@@ -51,6 +28,22 @@ public class ListAllProductsWindow extends JPanel {
     model.addColumn("Quantidade");
     model.addColumn("Adicionado em");
     model.addColumn("Fornecedor");
+
+    ProductsRepository productsRepository = new ProductsRepository();
+
+    try {
+      List<ProductWithSupplierAndCategoryInfo> products = productsRepository.listAll();
+
+      for (ProductWithSupplierAndCategoryInfo product : products) {
+        model.addRow(new Object[] {
+            product.id, product.name, product.description, product.categoryName,
+            product.price, product.quantity, product.addedAt, product.supplierName
+        });
+      }
+    } catch (Exception e) {
+      JOptionPane.showMessageDialog(null, "Erro ao carregar registros da tabela \n" + e, "Erro",
+          JOptionPane.ERROR_MESSAGE);
+    }
 
     JTable table = new JTable(model);
     JScrollPane scrollPane = new JScrollPane(table);
