@@ -13,7 +13,7 @@ import java.util.List;
  * - [] Implementar navegação em menu.
  */
 
-class InsertWindow extends JFrame {
+class InsertWindow extends JPanel {
   private JLabel nameLabel = new JLabel("Nome: ");
   private JTextField nameTextField = new JTextField(20);
 
@@ -39,11 +39,6 @@ class InsertWindow extends JFrame {
   private SuppliersRepository suppliersRepository = new SuppliersRepository(new DBManager().getConnection());
 
   public InsertWindow() {
-
-    setTitle("Inserir Registros");
-    setSize(800, 800);
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setLocationRelativeTo(null);
     setLayout(new BorderLayout());
 
     JPanel mainPanel = new JPanel(new GridLayout(8, 2, 5, 5));
@@ -86,7 +81,7 @@ class InsertWindow extends JFrame {
     buttonPanel.add(insertButton);
 
     add(buttonPanel, BorderLayout.SOUTH);
-    setVisible(true);
+    // setVisible(true);
   }
 
   private String[] getFormattedCategories(List<CategoryObject> categoriesObjects) {
