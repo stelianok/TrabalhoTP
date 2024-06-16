@@ -30,8 +30,7 @@ public class App {
 
     public App() {
         connectToDatabase();
-        iw = new InsertWindow();
-
+        new Menu();
     }
 
     public static void main(String[] args) throws Exception {
