@@ -3,7 +3,7 @@ import java.sql.*;
 class ProductsRepository {
   /**
    * @Todo
-   *       - [] Implement insert product feature.
+   *       - [X] Implement insert product feature.
    *       - [] Implement update product feature.
    *       - [] Implement list all products feature.
    */
@@ -16,15 +16,6 @@ class ProductsRepository {
   private Connection connection;
   private DBManager dbManager = new DBManager();
 
-  /*
-   * name (str)
-   * description (str)
-   * category_id (str) FK
-   * price (double(10,2))
-   * quantity (int)
-   * added_at (string)
-   * supplier_id (FK)
-   */
   void create(Product product) {
     String query = "INSERT INTO Products (name, description, category_id, price, quantity, added_at, supplier_id)" +
         "VALUES (?, ?, ?, ?, ?, ?, ?)";
