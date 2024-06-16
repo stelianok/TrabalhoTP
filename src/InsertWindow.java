@@ -1,4 +1,7 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 import java.util.List;
 
@@ -38,6 +41,9 @@ class InsertWindow extends JPanel {
   private CategoriesRepository categoriesRepository = new CategoriesRepository();
   private SuppliersRepository suppliersRepository = new SuppliersRepository();
 
+  private JComboBox<String> categoriesComboBox;
+  private JComboBox<String> supplierComboBox;
+
   public InsertWindow() {
     setLayout(new BorderLayout());
 
@@ -54,7 +60,7 @@ class InsertWindow extends JPanel {
 
     List<CategoryObject> categoriesObjects = categoriesRepository.getAllCategories();
 
-    JComboBox<String> categoriesComboBox = new JComboBox<>(getFormattedCategories(categoriesObjects));
+    categoriesComboBox = new JComboBox<>(getFormattedCategories(categoriesObjects));
 
     mainPanel.add(categoriesComboBox);
 
@@ -71,7 +77,7 @@ class InsertWindow extends JPanel {
 
     List<SupplierObject> supplierObjects = suppliersRepository.getAllSuppliers();
 
-    JComboBox<String> supplierComboBox = new JComboBox<>(getFormattedSuppliers(supplierObjects));
+    supplierComboBox = new JComboBox<>(getFormattedSuppliers(supplierObjects));
 
     mainPanel.add(supplierComboBox);
 
@@ -81,7 +87,60 @@ class InsertWindow extends JPanel {
     buttonPanel.add(insertButton);
 
     add(buttonPanel, BorderLayout.SOUTH);
-    // setVisible(true);
+
+    insertButton.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        Insert();
+      }
+    });
+  }
+
+  private void Insert() {
+    /*
+     * Resgatar dados dos campos escritos pelo usuário
+     * Pegar ids de cada combobox
+     * Formatar dados em Product
+     * Enviar dados através de productsRepository
+     * Mostrar mensagem de erro ou sucesso
+     * Em caso de sucesso, limpar os campos.
+     */
+    try {
+      Integer selectedCategoryId = this.getIdFrom(categoriesComboBox.getSelectedItem().toString());
+      Integer selectedSupplierId = this.getIdFrom(supplierComboBox.getSelectedItem().toString());
+
+      Product product = new Product(
+          nameTextField.getText(),
+          descriptionTextArea.getText(),
+          selectedCategoryId,
+          Double.parseDouble(priceTextField.getText()),
+          Integer.parseInt(quantityTextField.getText()),
+          addedAtTextField.getText(),
+          selectedSupplierId);
+
+      ProductsRepository productsRepository = new ProductsRepository();
+
+      productsRepository.create(product);
+
+      JOptionPane.showMessageDialog(null, "Inserção realizada com sucesso! \n", ":D",
+          JOptionPane.INFORMATION_MESSAGE);
+      this.CleanFields();
+
+    } catch (Exception e) {
+      JOptionPane.showMessageDialog(null, "Erro ao inserir registro no banco de dados\n" + e, "Erro",
+          JOptionPane.ERROR_MESSAGE);
+    }
+  }
+
+  private Integer getIdFrom(String str) {
+    return Integer.parseInt(str.split("-")[0].trim());
+  }
+
+  private void CleanFields() {
+    nameTextField.setText("");
+    descriptionTextArea.setText("");
+    priceTextField.setText("");
+    quantityTextField.setText("");
+    addedAtTextField.setText("");
   }
 
   private String[] getFormattedCategories(List<CategoryObject> categoriesObjects) {
