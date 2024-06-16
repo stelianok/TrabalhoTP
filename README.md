@@ -13,11 +13,11 @@ Sistema de controle de estoque de um ecommerce fictício
   - quantity (Int)
   - added_at (String)
   - supplier_id (FK)
-- Categorias
+- Categories
   - id (int PK)
   - name (String)
   - Description (String)
-- Fornecedores
+- Suppliers
   - id (int PK)
   - name (String)
   - address (String)
