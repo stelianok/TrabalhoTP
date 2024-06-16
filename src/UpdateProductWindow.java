@@ -44,7 +44,7 @@ class UpdateProductWindow extends JPanel {
 
   private JLabel supplierLabel = new JLabel("Fornecedor: ");
 
-  private JButton updateButton = new JButton("Inserir registro");
+  private JButton updateButton = new JButton("Atualizar registro");
 
   private CategoriesRepository categoriesRepository = new CategoriesRepository();
   private SuppliersRepository suppliersRepository = new SuppliersRepository();
@@ -112,11 +112,13 @@ class UpdateProductWindow extends JPanel {
     JPanel buttonPanel = new JPanel();
     buttonPanel.add(updateButton);
 
+    updateButton.setEnabled(false);
+
     add(buttonPanel, BorderLayout.SOUTH);
 
     updateButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        // Update();
+        Update();
       }
     });
   }
@@ -150,6 +152,10 @@ class UpdateProductWindow extends JPanel {
       categoriesComboBox.setSelectedIndex(products.get(0).category_id);
       supplierComboBox.setSelectedItem(products.get(0).supplier_id);
 
+      if (!updateButton.isEnabled()) {
+        updateButton.setEnabled(true);
+      }
+
     } catch (Exception e) {
       JOptionPane.showMessageDialog(null, "Produto não encontrado!\n" + e, ":(",
           JOptionPane.ERROR_MESSAGE);
@@ -179,12 +185,14 @@ class UpdateProductWindow extends JPanel {
 
       productsRepository.update(product);
 
-      JOptionPane.showMessageDialog(null, "Inserção realizada com sucesso! \n", ":D",
+      JOptionPane.showMessageDialog(null, "Produto atualizado com sucesso! \n", ":D",
           JOptionPane.INFORMATION_MESSAGE);
       this.CleanFields();
 
+      updateButton.setEnabled(false);
+
     } catch (Exception e) {
-      JOptionPane.showMessageDialog(null, "Erro ao inserir registro no banco de dados\n" + e, "Erro",
+      JOptionPane.showMessageDialog(null, "Erro ao atualizar registro no banco de dados\n" + e, ":(",
           JOptionPane.ERROR_MESSAGE);
     }
   }
@@ -194,6 +202,8 @@ class UpdateProductWindow extends JPanel {
   }
 
   private void CleanFields() {
+    searchTextField.setText("");
+    idTextField.setText("");
     nameTextField.setText("");
     descriptionTextArea.setText("");
     priceTextField.setText("");
