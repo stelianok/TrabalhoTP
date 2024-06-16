@@ -1,4 +1,5 @@
 class Product {
+  public Integer id;
   public String name;
   public String description;
   public Integer category_id;
@@ -9,6 +10,19 @@ class Product {
 
   public Product(String name, String description, Integer category_id, Double price, Integer quantity, String added_at,
       Integer supplier_id) {
+    this.name = name;
+    this.description = description;
+    this.category_id = category_id;
+    this.price = price;
+    this.quantity = quantity;
+    this.added_at = added_at;
+    this.supplier_id = supplier_id;
+  }
+
+  public Product(Integer id, String name, String description, Integer category_id, Double price, Integer quantity,
+      String added_at,
+      Integer supplier_id) {
+    this.id = id;
     this.name = name;
     this.description = description;
     this.category_id = category_id;

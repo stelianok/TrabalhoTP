@@ -19,11 +19,11 @@ import java.util.List;
 class UpdateProductWindow extends JPanel {
 
   private JLabel searchLabel = new JLabel("Pesquisar produto (nome):");
-  private JTextField searchTextField = new JTextField();
+  private JTextField searchTextField = new JTextField(20);
   private JButton searchButton = new JButton("Pesquisar");
 
   private JLabel idLabel = new JLabel("id: ");
-  private JLabel idValueLabel = new JLabel(" ");
+  private JTextField idTextField = new JTextField(20);
 
   private JLabel nameLabel = new JLabel("Nome: ");
   private JTextField nameTextField = new JTextField(20);
@@ -48,28 +48,34 @@ class UpdateProductWindow extends JPanel {
 
   private CategoriesRepository categoriesRepository = new CategoriesRepository();
   private SuppliersRepository suppliersRepository = new SuppliersRepository();
-
+  private ProductsRepository productsRepository = new ProductsRepository();
   private JComboBox<String> categoriesComboBox;
   private JComboBox<String> supplierComboBox;
 
   public UpdateProductWindow() {
     setLayout(new BorderLayout());
 
-    JPanel mainPanel = new JPanel(new GridLayout(8, 2, 5, 5));
-    mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-    mainPanel.add(searchLabel);
-    mainPanel.add(searchTextField);
-    mainPanel.add(searchButton);
+    JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+    topPanel.add(searchLabel);
+    topPanel.add(searchTextField);
+    topPanel.add(searchButton);
 
     searchButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        // Search();
+        Search();
       }
     });
 
+    add(topPanel, BorderLayout.NORTH);
+
+    JPanel mainPanel = new JPanel(new GridLayout(9, 2, 5, 5));
+    mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+    idTextField.setEditable(false);
+
     mainPanel.add(idLabel);
-    mainPanel.add(idValueLabel);
+    mainPanel.add(idTextField);
     mainPanel.add(nameLabel);
     mainPanel.add(nameTextField);
 
@@ -121,6 +127,33 @@ class UpdateProductWindow extends JPanel {
      * Se o produto não for encontrado, exibir mensagem de erro.
      * Se ele for, resgatar dados do banco de dados e substituir na interface.
      */
+
+    String searchQuery = searchTextField.getText().trim();
+
+    if (searchQuery.isEmpty()) {
+      JOptionPane.showMessageDialog(null, "Campo de pesquisa vazio! \n", ":/",
+          JOptionPane.INFORMATION_MESSAGE);
+
+      return;
+    }
+
+    try {
+      List<Product> products = productsRepository.findByName(searchQuery);
+
+      idTextField.setText(products.get(0).id.toString());
+      nameTextField.setText(products.get(0).name);
+      descriptionTextArea.setText(products.get(0).description);
+      priceTextField.setText(products.get(0).price.toString());
+      quantityTextField.setText(products.get(0).quantity.toString());
+      addedAtTextField.setText(products.get(0).added_at);
+
+      categoriesComboBox.setSelectedIndex(products.get(0).category_id);
+      supplierComboBox.setSelectedItem(products.get(0).supplier_id);
+
+    } catch (Exception e) {
+      JOptionPane.showMessageDialog(null, "Produto não encontrado!\n" + e, ":(",
+          JOptionPane.ERROR_MESSAGE);
+    }
   }
 
   private void Update() {
@@ -144,7 +177,7 @@ class UpdateProductWindow extends JPanel {
 
       ProductsRepository productsRepository = new ProductsRepository();
 
-      productsRepository.create(product);
+      productsRepository.update(product);
 
       JOptionPane.showMessageDialog(null, "Inserção realizada com sucesso! \n", ":D",
           JOptionPane.INFORMATION_MESSAGE);
