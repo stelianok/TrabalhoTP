@@ -44,16 +44,19 @@ class Menu extends JFrame {
     // Painéis que o usuário terá acesso.
     InsertWindow insertWindow = new InsertWindow();
     UpdateProductWindow updateProductWindow = new UpdateProductWindow();
-    ListAllProductsWindow listAllProductsWindow = new ListAllProductsWindow();
-    ListAllSuppliersWindow listAllSuppliersWindow = new ListAllSuppliersWindow();
-    ListAllCategoriesWindow listALlCategoriesWindow = new ListAllCategoriesWindow();
 
     // Adiciona os painéis ao painel principal
     mainPanel.add(insertWindow, "1");
     mainPanel.add(updateProductWindow, "2");
-    mainPanel.add(listAllProductsWindow, "3");
-    mainPanel.add(listAllSuppliersWindow, "4");
-    mainPanel.add(listALlCategoriesWindow, "5");
+
+    /*
+     * O código que gera a tabela está escrito no constructor desses JPanels.
+     * Para garantir que a tabela gerada sempre esteja atualizada, o painel é
+     * reconstruído sempre que o usuário "recarrega" a página.
+     */
+    mainPanel.add(new JPanel(), "3");
+    mainPanel.add(new JPanel(), "4");
+    mainPanel.add(new JPanel(), "5");
 
     // Adiciona o painel principal à janela
     add(mainPanel);
@@ -72,19 +75,26 @@ class Menu extends JFrame {
     });
 
     listProductsMenuItem.addActionListener(new ActionListener() {
+
       public void actionPerformed(ActionEvent e) {
+        ListAllProductsWindow listAllProductsWindow = new ListAllProductsWindow();
+        mainPanel.add(listAllProductsWindow, "3");
         cardLayout.show(mainPanel, "3");
       }
     });
 
     listSuppliersMenuItem.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
+        ListAllSuppliersWindow listAllSuppliersWindow = new ListAllSuppliersWindow();
+        mainPanel.add(listAllSuppliersWindow, "4");
         cardLayout.show(mainPanel, "4");
       }
     });
 
     listProductCategories.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
+        ListAllCategoriesWindow listAllCategoriesWindow = new ListAllCategoriesWindow();
+        mainPanel.add(listAllCategoriesWindow, "5");
         cardLayout.show(mainPanel, "5");
       }
     });
