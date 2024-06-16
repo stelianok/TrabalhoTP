@@ -45,33 +45,34 @@ class ProductsRepository {
   }
 
   void update(Product product) {
-    // String query = "INSERT INTO Products (name, description, category_id, price,
-    // quantity, added_at, supplier_id)" +
-    // "VALUES (?, ?, ?, ?, ?, ?, ?)";
+    String query = "UPDATE Products " +
+        "SET name = ?, description = ?, category_id = ?, price = ?, quantity = ?, added_at = ?, supplier_id = ? " +
+        "WHERE id = ?;";
 
-    // try {
-    // dbManager.startDatabase();
-    // this.connection = dbManager.getConnection();
-    // PreparedStatement stmt = connection.prepareStatement(query);
+    try {
+      dbManager.startDatabase();
+      this.connection = dbManager.getConnection();
+      PreparedStatement stmt = connection.prepareStatement(query);
 
-    // stmt.setString(1, product.name);
-    // stmt.setString(2, product.description);
-    // stmt.setInt(3, product.category_id);
-    // stmt.setDouble(4, product.price);
-    // stmt.setInt(5, product.quantity);
-    // stmt.setString(6, product.added_at);
-    // stmt.setInt(7, product.supplier_id);
+      stmt.setString(1, product.name);
+      stmt.setString(2, product.description);
+      stmt.setInt(3, product.category_id);
+      stmt.setDouble(4, product.price);
+      stmt.setInt(5, product.quantity);
+      stmt.setString(6, product.added_at);
+      stmt.setInt(7, product.supplier_id);
+      stmt.setInt(8, product.id);
 
-    // stmt.executeUpdate();
+      stmt.executeUpdate();
 
-    // } catch (ClassNotFoundException e) {
-    // System.out.println("Class not found" + e);
-    // } catch (SQLException e) {
-    // System.out.println("Error" + e);
-    // } finally {
-    // this.dbManager.closeDatabase();
-    // this.connection = null;
-    // }
+    } catch (ClassNotFoundException e) {
+      System.out.println("Class not found: " + e);
+    } catch (SQLException e) {
+      System.out.println("Error: " + e);
+    } finally {
+      this.dbManager.closeDatabase();
+      this.connection = null;
+    }
   }
 
   public List<ProductWithSupplierAndCategoryInfo> listAll() {

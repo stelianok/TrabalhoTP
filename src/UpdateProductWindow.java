@@ -173,6 +173,7 @@ class UpdateProductWindow extends JPanel {
       Integer selectedSupplierId = this.getIdFrom(supplierComboBox.getSelectedItem().toString());
 
       Product product = new Product(
+          Integer.parseInt(idTextField.getText()),
           nameTextField.getText(),
           descriptionTextArea.getText(),
           selectedCategoryId,
