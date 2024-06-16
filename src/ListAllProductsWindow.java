@@ -9,14 +9,13 @@ public class ListAllProductsWindow extends JPanel {
    * 
    */
 
-  JLabel label = new JLabel("Lista de todos os produtos cadastrados");
+  JLabel title = new JLabel("Lista de todos os produtos cadastrados");
 
   ListAllProductsWindow() {
-    // setSize(800, 800);
     setLayout(new BorderLayout());
 
-    label.setHorizontalAlignment(SwingConstants.CENTER);
-    add(label, BorderLayout.NORTH);
+    title.setHorizontalAlignment(SwingConstants.CENTER);
+    add(title, BorderLayout.NORTH);
 
     DefaultTableModel model = new DefaultTableModel();
 
@@ -31,18 +30,13 @@ public class ListAllProductsWindow extends JPanel {
 
     ProductsRepository productsRepository = new ProductsRepository();
 
-    try {
-      List<ProductWithSupplierAndCategoryInfo> products = productsRepository.listAll();
+    List<ProductWithSupplierAndCategoryInfo> products = productsRepository.listAll();
 
-      for (ProductWithSupplierAndCategoryInfo product : products) {
-        model.addRow(new Object[] {
-            product.id, product.name, product.description, product.categoryName,
-            product.price, product.quantity, product.addedAt, product.supplierName
-        });
-      }
-    } catch (Exception e) {
-      JOptionPane.showMessageDialog(null, "Erro ao carregar registros da tabela \n" + e, "Erro",
-          JOptionPane.ERROR_MESSAGE);
+    for (ProductWithSupplierAndCategoryInfo product : products) {
+      model.addRow(new Object[] {
+          product.id, product.name, product.description, product.categoryName,
+          product.price, product.quantity, product.addedAt, product.supplierName
+      });
     }
 
     JTable table = new JTable(model);
