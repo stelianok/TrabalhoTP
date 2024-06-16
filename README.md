@@ -1,9 +1,9 @@
 ## Trabalho TPI
 
-Sistema de controle de estoque de um ecommerce fictício
+Sistema de gerenciamento de estoque de uma loja de skate e acessórios fictícia.
+Projeto desenvolvido como trabalho semestral da disciplina Técnicas de Programação. (Unesp)
 
 ## Tabelas
-
 - Products
   - id (int PK)
   - name (String)
