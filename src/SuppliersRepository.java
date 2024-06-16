@@ -23,8 +23,11 @@ public class SuppliersRepository {
       while (rs.next()) {
         int id = rs.getInt("id");
         String name = rs.getString("name");
+        String address = rs.getString("address");
+        String phone = rs.getString("phone");
+        String email = rs.getString("email");
 
-        SupplierObject supplierObject = new SupplierObject(id, name);
+        SupplierObject supplierObject = new SupplierObject(id, name, address, phone, email);
         suppliers.add(supplierObject);
       }
 
