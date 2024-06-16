@@ -162,12 +162,12 @@ class InsertWindow extends JPanel {
     String[] suppliersStr = new String[supplierObjects.size()];
 
     for (int i = 0; i < supplierObjects.size(); i++) {
-      SupplierObject category = supplierObjects.get(i);
-      int id = category.id;
-      String name = category.name;
-      String categoryStr = id + " - " + name;
+      SupplierObject supplier = supplierObjects.get(i);
+      int id = supplier.id;
+      String name = supplier.name;
+      String supplierStr = id + " - " + name;
 
-      suppliersStr[i] = categoryStr;
+      suppliersStr[i] = supplierStr;
     }
 
     return suppliersStr;
