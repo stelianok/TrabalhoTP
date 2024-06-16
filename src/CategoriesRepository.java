@@ -7,10 +7,6 @@ public class CategoriesRepository {
   private Statement statement;
   private DBManager dbManager = new DBManager();
 
-  CategoriesRepository(Connection connection) {
-    this.connection = connection;
-  }
-
   public List<CategoryObject> getAllCategories() {
     List<CategoryObject> categories = new ArrayList<>();
 

@@ -35,8 +35,8 @@ class InsertWindow extends JPanel {
 
   private JButton insertButton = new JButton("Inserir registro");
 
-  private CategoriesRepository categoriesRepository = new CategoriesRepository(new DBManager().getConnection());
-  private SuppliersRepository suppliersRepository = new SuppliersRepository(new DBManager().getConnection());
+  private CategoriesRepository categoriesRepository = new CategoriesRepository();
+  private SuppliersRepository suppliersRepository = new SuppliersRepository();
 
   public InsertWindow() {
     setLayout(new BorderLayout());

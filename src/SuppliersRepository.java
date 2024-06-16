@@ -7,10 +7,6 @@ public class SuppliersRepository {
   private Statement statement;
   private DBManager dbManager = new DBManager();
 
-  SuppliersRepository(Connection connection) {
-    this.connection = connection;
-  }
-
   public List<SupplierObject> getAllSuppliers() {
     List<SupplierObject> suppliers = new ArrayList<>();
 
